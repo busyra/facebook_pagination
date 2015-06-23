@@ -14,8 +14,31 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-$(document).on("ready page:load", function (){
-	$("#more-button BUTTON").click(function(){
-		alert("click")
-	})
+$(document).on("ready page:load", function(){
+
+    $("#more-button BUTTON").click(function(){
+
+        //Show loading
+        $("#more-button").hide();
+        $("#loading-text").removeClass("hidden");
+
+        $.ajax("", {
+            method: "GET",
+            data: {
+                page: 2
+            },
+            success: function(result){
+
+                //Show our stories
+                $(".stories").append(result)
+
+                //Hide loading
+                $("#more-button").show();
+                $("#loading-text").addClass("hidden");
+
+            }
+        })
+
+    })
+
 })

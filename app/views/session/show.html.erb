@@ -36,54 +36,7 @@
 
     <div class="stories">
 
-		<% @stories.each do |entry| %>
-		<article>
-			<header>
-				<table>
-					<tr>
-						<td>
-							<img src="//graph.facebook.com/<%= entry['from']['id'] %>/picture">
-						</td>
-						<td>
-							<a href='#'><b><%= entry['from']['name'] %></b></a>
-							<br>
-							<time datetime="<%= entry['created_time'] %>"><%= entry['created_time'] %></time>
-						</td>
-					</tr>
-				</table>
-			</header>
-			<div class="story">
-
-				<%= entry['story'] || entry['message'] %>
-
-				<% if entry['picture'] %>
-				<div class="photo">
-					<%= image_tag entry['picture'] %>
-				</div>
-				<% end %>
-
-				<div class="like-comment">
-					<a href='#'>Like</a> &bull; <a href='#'>Comment</a>
-				</div>
-
-			</div>
-			<% if entry['comments'] %>
-			<footer>
-				<ul>
-				<% entry['comments']['data'].each do |comment| %>
-					<li>
-						<a href="#"><b><%= comment['from']['name'] %></b></a>
-						<%= comment['message'] %>
-						<br>
-						<small><a href='#'>Like</a> &bull; <a href='#'>Reply</a></small>
-					</li>
-				<% end %>
-				</ul>
-			</footer>
-			<% end %>
-
-		</article>
-		<% end %>
+	<%= render 'stories'%>
 
     </div>
 
