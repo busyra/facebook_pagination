@@ -9,8 +9,10 @@ class SessionController < ApplicationController
 
       @auth = session['auth']
       @graph = Koala::Facebook::API.new @auth['credentials']['token']
-
-      @stories = @graph.get_object("me/feed?limit=5")
+      current_page = Integer(params[:params]) rescue 1
+      per_page = 5
+      offset = current_page * per_page - per_page
+      @stories = @graph.get_object("me/feed?limit=#{per_page}&offset=#{offset}")
 
   end
 
