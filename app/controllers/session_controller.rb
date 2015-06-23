@@ -9,10 +9,20 @@ class SessionController < ApplicationController
 
       @auth = session['auth']
       @graph = Koala::Facebook::API.new @auth['credentials']['token']
-      current_page = Integer(params[:params]) rescue 1
+
+      #determine which page to start at
+      current_page =  Integer(params[:page]) rescue 1
       per_page = 5
       offset = current_page * per_page - per_page
+
+      @page = current_page
+
       @stories = @graph.get_object("me/feed?limit=#{per_page}&offset=#{offset}")
+
+      if request.xhr?
+      #to render only story and not layout
+      render :_stories, layout: false
+      end
 
   end
 
