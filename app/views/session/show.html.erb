@@ -1,0 +1,97 @@
+<aside>
+
+    <h2>User Data</h2>
+
+    <table>
+           <tr>
+                   <td>Auth Provider: </td>
+                   <td><%= @auth["provider"] %></td>
+           </tr>
+           <tr>
+                   <td>Unique ID: </td>
+                   <td><%= @auth["uid"] %></td>
+           </tr>
+           <tr>
+                   <td>Email: </td>
+                   <td><%= @auth["info"]["email"] %></td>
+           </tr>
+           <tr>
+                   <td>Username: </td>
+                   <td><%= @auth["info"]["nickname"] %></td>
+           </tr>
+           <tr>
+                   <td>Name: </td>
+                   <td><%= @auth["info"]["name"] %></td>
+           </tr>
+           <tr>
+                   <td>Mugshot: </td>
+                   <td><img src="<%= @auth["info"]["image"] %>" width="50" /></td>
+           </tr>
+    </table>
+</aside>
+
+<main data-current-page="<%= @page %>">
+
+    <h2>Facebook Feed</h2>
+
+    <div class="stories">
+
+		<% @stories.each do |entry| %>
+		<article>
+			<header>
+				<table>
+					<tr>
+						<td>
+							<img src="//graph.facebook.com/<%= entry['from']['id'] %>/picture">
+						</td>
+						<td>
+							<a href='#'><b><%= entry['from']['name'] %></b></a>
+							<br>
+							<time datetime="<%= entry['created_time'] %>"><%= entry['created_time'] %></time>
+						</td>
+					</tr>
+				</table>
+			</header>
+			<div class="story">
+
+				<%= entry['story'] || entry['message'] %>
+
+				<% if entry['picture'] %>
+				<div class="photo">
+					<%= image_tag entry['picture'] %>
+				</div>
+				<% end %>
+
+				<div class="like-comment">
+					<a href='#'>Like</a> &bull; <a href='#'>Comment</a>
+				</div>
+
+			</div>
+			<% if entry['comments'] %>
+			<footer>
+				<ul>
+				<% entry['comments']['data'].each do |comment| %>
+					<li>
+						<a href="#"><b><%= comment['from']['name'] %></b></a>
+						<%= comment['message'] %>
+						<br>
+						<small><a href='#'>Like</a> &bull; <a href='#'>Reply</a></small>
+					</li>
+				<% end %>
+				</ul>
+			</footer>
+			<% end %>
+
+		</article>
+		<% end %>
+
+    </div>
+
+    <div id="loading-text" class="text-center hidden">
+        Loading...
+    </div>
+    <div id="more-button" class="text-center">
+        <button class="btn btn-primary">Load More Posts</button>
+    </div>
+
+</main>
